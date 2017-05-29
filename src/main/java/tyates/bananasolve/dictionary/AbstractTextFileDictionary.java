@@ -9,10 +9,10 @@ import java.util.Set;
 
 import static tyates.bananasolve.util.StringStandardizer.standardize;
 
-public class AbstractTextFileDictionary implements Dictionary {
-    protected final Set<String> validWords;
+public abstract class AbstractTextFileDictionary implements Dictionary {
+    private final Set<String> validWords;
 
-    public AbstractTextFileDictionary(final String resourceFileName) throws FileNotFoundException {
+    AbstractTextFileDictionary(final String resourceFileName) throws FileNotFoundException {
         final File dictFile = new File(getClass().getClassLoader().getResource(resourceFileName).getFile());
         final Scanner scanner = new Scanner(dictFile);
 
