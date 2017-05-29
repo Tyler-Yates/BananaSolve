@@ -16,5 +16,6 @@ public class TestProg {
         System.out.println(board.toString());
         System.out.println(board.addWord("questions", 1, 0, Direction.DOWN));
         System.out.println(board.toString());
+        System.out.println(board.getTiles());
     }
 }

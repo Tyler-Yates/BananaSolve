@@ -3,6 +3,9 @@ package tyates.bananasolve.data;
 import tyates.bananasolve.dictionary.Dictionary;
 import tyates.bananasolve.util.Direction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static tyates.bananasolve.util.StringStandardizer.UNINITIALIZED_CHARACTER;
 
 public class Board {
@@ -80,6 +83,18 @@ public class Board {
             }
         }
         return dictionary.isValidWord(stringBuilder.toString());
+    }
+
+    public List<Tile> getTiles() {
+        final List<Tile> tilesList = new ArrayList<>();
+        for (int r = 0; r < tiles.length; r++) {
+            for (int c = 0; c < tiles[r].length; c++) {
+                if (tiles[r][c] != UNINITIALIZED_CHARACTER) {
+                    tilesList.add(new Tile(r, c, tiles[r][c]));
+                }
+            }
+        }
+        return tilesList;
     }
 
     public String toString() {
