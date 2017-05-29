@@ -156,40 +156,6 @@ public class ArrayBoard implements Board {
 
     @Override
     public String toString() {
-        int firstRow = Integer.MAX_VALUE;
-        int firstCol = Integer.MAX_VALUE;
-        int lastRow = 0;
-        int lastCol = 0;
-
-        for (int r = 0; r < tiles.length; r++) {
-            for (int c = 0; c < tiles[r].length; c++) {
-                if (tiles[r][c] != UNINITIALIZED_CHARACTER) {
-                    firstRow = Math.min(firstRow, r);
-                    lastRow = Math.max(lastRow, r);
-                    firstCol = Math.min(firstCol, c);
-                    lastCol = Math.max(lastCol, c);
-                }
-            }
-        }
-
-        final StringBuilder output = new StringBuilder();
-        // Border
-        for (int c = firstCol - 2; c <= lastCol + 2; c++) {
-            output.append("-");
-        }
-        output.append("\n");
-        // Tiles
-        for (int r = firstRow; r <= lastRow; r++) {
-            output.append("| "); // Border
-            for (int c = firstCol; c <= lastCol; c++) {
-                output.append(tiles[r][c]);
-            }
-            output.append(" |\n"); // Border
-        }
-        // Border
-        for (int c = firstCol - 2; c <= lastCol + 2; c++) {
-            output.append("-");
-        }
-        return output.toString();
+        return MatrixUtil.prettyPrintMatrix(tiles);
     }
 }
