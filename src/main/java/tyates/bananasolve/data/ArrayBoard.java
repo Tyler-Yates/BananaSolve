@@ -25,6 +25,7 @@ public class ArrayBoard implements Board {
         this.dictionary = dictionary;
     }
 
+    @Override
     public boolean addWord(String word, final int row, final int col, final Direction direction) {
         word = standardize(word);
         if (!dictionary.isValidWord(word)) {
@@ -63,6 +64,7 @@ public class ArrayBoard implements Board {
         return true;
     }
 
+    @Override
     public List<String> getWords() {
         final boolean[][] checked = new boolean[tiles.length][tiles[0].length];
         final List<String> words = new ArrayList<>();
@@ -114,6 +116,7 @@ public class ArrayBoard implements Board {
         }
     }
 
+    @Override
     public List<Tile> getTiles() {
         final List<Tile> tilesList = new ArrayList<>();
         for (int r = 0; r < tiles.length; r++) {
@@ -126,6 +129,7 @@ public class ArrayBoard implements Board {
         return tilesList;
     }
 
+    @Override
     public String toString() {
         int firstRow = Integer.MAX_VALUE;
         int firstCol = Integer.MAX_VALUE;
