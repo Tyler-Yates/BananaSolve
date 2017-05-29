@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static tyates.bananasolve.util.StringStandardizer.UNINITIALIZED_CHARACTER;
+import static tyates.bananasolve.util.StringStandardizer.standardize;
 
 public class Board {
     private final char[][] tiles = new char[1024][1024];
@@ -16,7 +17,8 @@ public class Board {
         this.dictionary = dictionary;
     }
 
-    public boolean addWord(final String word, final int row, final int col, final Direction direction) {
+    public boolean addWord(String word, final int row, final int col, final Direction direction) {
+        word = standardize(word);
         if (!dictionary.isValidWord(word)) {
             return false;
         }
@@ -44,7 +46,18 @@ public class Board {
     }
 
     public boolean boardIsValid() {
+        final List<String> words = getWords();
+        for (final String word : words) {
+            if (!dictionary.isValidWord(standardize(word))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<String> getWords() {
         final boolean[][] checked = new boolean[tiles.length][tiles[0].length];
+        final List<String> words = new ArrayList<>();
 
         for (int r = 0; r < tiles.length; r++) {
             for (int c = 0; c < tiles[r].length; c++) {
@@ -59,18 +72,21 @@ public class Board {
                     continue;
                 }
 
-                final boolean validDown = checkWord(r, c, Direction.DOWN, checked);
-                final boolean validRight = checkWord(r, c, Direction.RIGHT, checked);
-                if (!validDown || !validRight) {
-                    return false;
+                String word = buildWord(r, c, Direction.DOWN, checked);
+                if (word != null) {
+                    words.add(word);
+                }
+                word = buildWord(r, c, Direction.RIGHT, checked);
+                if (word != null) {
+                    words.add(word);
                 }
             }
         }
 
-        return true;
+        return words;
     }
 
-    private boolean checkWord(int r, int c, final Direction direction, final boolean[][] checked) {
+    private String buildWord(int r, int c, final Direction direction, final boolean[][] checked) {
         final StringBuilder stringBuilder = new StringBuilder();
         while (tiles[r][c] != UNINITIALIZED_CHARACTER) {
             checked[r][c] = true;
@@ -82,8 +98,12 @@ public class Board {
                 c++;
             }
         }
-        // A single character should not be checked as a "word"
-        return stringBuilder.length() <= 1 || dictionary.isValidWord(stringBuilder.toString());
+        // A single character should not be considered a "word"
+        if (stringBuilder.length() > 1) {
+            return stringBuilder.toString();
+        } else {
+            return null;
+        }
     }
 
     public List<Tile> getTiles() {
