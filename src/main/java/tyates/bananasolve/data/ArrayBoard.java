@@ -32,6 +32,11 @@ public class ArrayBoard implements Board {
             return false;
         }
 
+        // If we are placing the word with direction LEFT or UP we want to start placing with the last character
+        if (direction == Direction.LEFT || direction == Direction.UP) {
+            word = new StringBuffer(word).reverse().toString();
+        }
+
         int currentRow = row;
         int currentCol = col;
         for (final char ch : word.toCharArray()) {
@@ -47,8 +52,12 @@ public class ArrayBoard implements Board {
             // Change currentRow and currentCol based on direction
             if (direction == Direction.DOWN) {
                 currentRow++;
-            } else {
+            } else if (direction == Direction.RIGHT) {
                 currentCol++;
+            } else if (direction == Direction.LEFT) {
+                currentCol--;
+            } else {
+                currentRow--;
             }
         }
         return boardIsValid();
