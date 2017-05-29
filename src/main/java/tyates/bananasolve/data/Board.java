@@ -82,7 +82,8 @@ public class Board {
                 c++;
             }
         }
-        return dictionary.isValidWord(stringBuilder.toString());
+        // A single character should not be checked as a "word"
+        return stringBuilder.length() <= 1 || dictionary.isValidWord(stringBuilder.toString());
     }
 
     public List<Tile> getTiles() {
