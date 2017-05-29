@@ -21,5 +21,9 @@ public class TestProg {
         System.out.println(board.toString());
         System.out.println(board.getTiles());
         System.out.println(board.getWords());
+        System.out.println(board.addWord("say", 13, 10, Direction.RIGHT));
+        System.out.println(board.toString());
+        System.out.println(board.getTiles());
+        System.out.println(board.getWords());
     }
 }
