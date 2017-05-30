@@ -81,6 +81,23 @@ public class ArrayBoard implements Board {
         }
     }
 
+    private static void findTileMass(final int r, final int c, char[][] tiles, boolean[][] tileMass) {
+        tileMass[r][c] = true;
+
+        if (r > 0 && tiles[r - 1][c] != UNINITIALIZED_CHARACTER && !tileMass[r - 1][c]) {
+            findTileMass(r - 1, c, tiles, tileMass);
+        }
+        if (r < tiles.length - 1 && tiles[r + 1][c] != UNINITIALIZED_CHARACTER && !tileMass[r + 1][c]) {
+            findTileMass(r + 1, c, tiles, tileMass);
+        }
+        if (c > 0 && tiles[r][c - 1] != UNINITIALIZED_CHARACTER && !tileMass[r][c - 1]) {
+            findTileMass(r, c - 1, tiles, tileMass);
+        }
+        if (c < tiles[r].length - 1 && tiles[r][c + 1] != UNINITIALIZED_CHARACTER && !tileMass[r][c + 1]) {
+            findTileMass(r, c + 1, tiles, tileMass);
+        }
+    }
+
     @Override
     public boolean addWord(String word, final int row, final int col, final Direction direction) {
         word = standardize(word);
@@ -135,6 +152,25 @@ public class ArrayBoard implements Board {
                 return false;
             }
         }
+
+        boolean firstCharacter = true;
+        final boolean[][] oneTileMass = new boolean[board.length][board[0].length];
+
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[r].length; c++) {
+                if (board[r][c] == UNINITIALIZED_CHARACTER) {
+                    continue;
+                }
+
+                if (firstCharacter) {
+                    findTileMass(r, c, board, oneTileMass);
+                    firstCharacter = false;
+                } else if (!oneTileMass[r][c]) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
