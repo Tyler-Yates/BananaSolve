@@ -28,29 +28,31 @@ public class ArrayBoard implements Board {
     }
 
     private static List<String> getWords(char[][] board) {
-        final boolean[][] checked = new boolean[board.length][board[0].length];
+        // Every beginning letter needs to be checked both DOWN and RIGHT
+        final boolean[][] checkedDown = new boolean[board.length][board[0].length];
+        final boolean[][] checkedRight = new boolean[board.length][board[0].length];
         final List<String> words = new ArrayList<>();
 
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board[r].length; c++) {
-                if (checked[r][c]) {
-                    continue;
-                }
 
                 final char ch = board[r][c];
-                checked[r][c] = true;
 
                 if (ch == UNINITIALIZED_CHARACTER) {
                     continue;
                 }
 
-                String word = buildWord(r, c, Direction.DOWN, board, checked);
-                if (word != null) {
-                    words.add(word);
+                if (!checkedDown[r][c]) {
+                    final String word = buildWord(r, c, Direction.DOWN, board, checkedDown);
+                    if (word != null) {
+                        words.add(word);
+                    }
                 }
-                word = buildWord(r, c, Direction.RIGHT, board, checked);
-                if (word != null) {
-                    words.add(word);
+                if (!checkedRight[r][c]) {
+                    final String word = buildWord(r, c, Direction.RIGHT, board, checkedRight);
+                    if (word != null) {
+                        words.add(word);
+                    }
                 }
             }
         }

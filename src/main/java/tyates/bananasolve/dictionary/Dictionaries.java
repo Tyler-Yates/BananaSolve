@@ -3,6 +3,7 @@ package tyates.bananasolve.dictionary;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -49,5 +50,15 @@ public final class Dictionaries {
 
     public static Dictionary tenThousandEnglishWordsDictionary() throws FileNotFoundException {
         return new ImmutableSetDictionary(loadDictionaryFile("ten_thousand_english_dictionary.txt"));
+    }
+
+    /**
+     * Creates a Dictionary using the given valid words.
+     *
+     * @param validWords the given valid words
+     * @return the created Dictionary
+     */
+    public static Dictionary from(Collection<String> validWords) {
+        return new ImmutableSetDictionary(validWords);
     }
 }
