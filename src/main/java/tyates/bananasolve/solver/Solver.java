@@ -1,7 +1,7 @@
 package tyates.bananasolve.solver;
 
 import tyates.bananasolve.data.Board;
-import tyates.bananasolve.data.TileHand;
+import tyates.bananasolve.data.TileGroup;
 
 /**
  * Interface for classes that solve a Bananagram hand.
@@ -13,5 +13,5 @@ public interface Solver {
      * @param tiles the given hand of tiles
      * @return a solution
      */
-    Board solve(final TileHand tiles);
+    Board solve(final TileGroup tiles);
 }

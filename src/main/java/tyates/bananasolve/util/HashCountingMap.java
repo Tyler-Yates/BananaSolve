@@ -4,10 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -45,6 +42,13 @@ public class HashCountingMap<T> implements CountingMap<T> {
     public HashCountingMap(Iterable<T> keys) {
         occurrences = new HashMap<>();
         incrementCounts(keys);
+    }
+
+    public HashCountingMap(Map<T, Integer> counts) {
+        occurrences = new HashMap<>();
+        for (final Map.Entry<T, Integer> entry : counts.entrySet()) {
+            incrementCount(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override
@@ -191,5 +195,21 @@ public class HashCountingMap<T> implements CountingMap<T> {
     @Override
     public boolean containsKey(T key) {
         return occurrences.containsKey(key);
+    }
+
+    @Override
+    public List<T> getValues() {
+        final List<T> values = new ArrayList<>();
+        for (final Map.Entry<T, Integer> entry : getCounts().entrySet()) {
+            for (int i = 1; i <= entry.getValue(); i++) {
+                values.add(entry.getKey());
+            }
+        }
+        return values;
+    }
+
+    @Override
+    public CountingMap<T> copy() {
+        return new HashCountingMap<>(getValues());
     }
 }

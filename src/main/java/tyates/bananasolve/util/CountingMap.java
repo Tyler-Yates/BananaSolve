@@ -2,6 +2,7 @@ package tyates.bananasolve.util;
 
 import com.google.common.base.Optional;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -132,4 +133,18 @@ public interface CountingMap<T> {
      * @return whether the given key is contained in the current map.
      */
     boolean containsKey(T key);
+
+    /**
+     * Returns a list that would lead to the current CountingMap if passed to the constructor.
+     *
+     * @return the list
+     */
+    List<T> getValues();
+
+    /**
+     * Creates a deep copy of the current CountingMap.
+     *
+     * @return the deep copy
+     */
+    CountingMap<T> copy();
 }

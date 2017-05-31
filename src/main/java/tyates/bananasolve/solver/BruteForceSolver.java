@@ -1,7 +1,7 @@
 package tyates.bananasolve.solver;
 
 import tyates.bananasolve.data.Board;
-import tyates.bananasolve.data.TileHand;
+import tyates.bananasolve.data.TileGroup;
 import tyates.bananasolve.dictionary.Dictionary;
 
 /**
@@ -20,7 +20,7 @@ public class BruteForceSolver implements Solver {
     }
 
     @Override
-    public Board solve(final TileHand tiles) {
+    public Board solve(final TileGroup tiles) {
         return null;
     }
 }
