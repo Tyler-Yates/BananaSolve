@@ -48,4 +48,11 @@ public interface TileGroup {
      * @return {@code true} if the current tile group has not tiles, {@code false} otherwise
      */
     boolean isEmpty();
+
+    /**
+     * Creates a deep copy of the current tile group.
+     *
+     * @return the deep copy
+     */
+    TileGroup copy();
 }

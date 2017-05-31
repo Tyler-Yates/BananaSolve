@@ -1,5 +1,6 @@
 package tyates.bananasolve.solver;
 
+import tyates.bananasolve.data.ArrayBoard;
 import tyates.bananasolve.data.Board;
 import tyates.bananasolve.data.TileGroup;
 import tyates.bananasolve.dictionary.Dictionary;
@@ -21,6 +22,11 @@ public class BruteForceSolver implements Solver {
 
     @Override
     public Board solve(final TileGroup tiles) {
-        return null;
+        Board board = new ArrayBoard(dictionary);
+        TileGroup solution = tiles.copy();
+        while (!tiles.isEmpty()) {
+
+        }
+        return board;
     }
 }

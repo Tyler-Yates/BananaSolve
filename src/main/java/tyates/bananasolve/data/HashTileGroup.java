@@ -55,4 +55,9 @@ public class HashTileGroup implements TileGroup {
     public boolean isEmpty() {
         return tiles.isEmpty();
     }
+
+    @Override
+    public TileGroup copy() {
+        return new HashTileGroup(tiles.copy());
+    }
 }
