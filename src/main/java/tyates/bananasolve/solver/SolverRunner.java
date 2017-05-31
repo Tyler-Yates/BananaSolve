@@ -1,6 +1,9 @@
 package tyates.bananasolve.solver;
 
+import tyates.bananasolve.dictionary.Dictionaries;
+
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -10,6 +13,12 @@ import java.util.regex.Pattern;
 import static tyates.bananasolve.util.StringStandardizer.standardize;
 
 public class SolverRunner {
+    final Solver solver;
+
+    public SolverRunner() throws FileNotFoundException {
+        solver = new BruteForceSolver(Dictionaries.fiveThousandEnglishWordsDictionary());
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter tiles separated by commas: ");
