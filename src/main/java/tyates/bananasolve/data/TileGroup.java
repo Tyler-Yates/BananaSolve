@@ -33,6 +33,14 @@ public interface TileGroup {
     TileGroup combinedWith(final TileGroup otherTileGroup);
 
     /**
+     * Returns a new tile group that represents the combination of the current tile group and given tile.
+     *
+     * @param tile the given tile
+     * @return the new tile group
+     */
+    TileGroup combinedWith(final Tile tile);
+
+    /**
      * Returns a new tile group that represents the current tile group after removing all tiles in the given tile group.
      * <p>
      * If the current tile group does not have enough tiles to perform the removal, {@code null} is returned.

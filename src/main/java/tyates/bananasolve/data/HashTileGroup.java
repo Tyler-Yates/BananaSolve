@@ -38,6 +38,14 @@ public class HashTileGroup implements TileGroup {
     }
 
     @Override
+    public TileGroup combinedWith(final Tile tile) {
+        final List<Character> combinedTiles = new ArrayList<>();
+        combinedTiles.addAll(tiles.getValues());
+        combinedTiles.add(tile.getCharacter());
+        return new HashTileGroup(combinedTiles);
+    }
+
+    @Override
     public TileGroup subtractedBy(TileGroup otherTileGroup) {
         final Map<Character, Integer> counts = new HashMap<>();
         for (final Map.Entry<Character, Integer> entry : getTileCounts().getCounts().entrySet()) {
