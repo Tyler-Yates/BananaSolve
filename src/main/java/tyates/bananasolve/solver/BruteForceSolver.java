@@ -15,7 +15,7 @@ import java.util.Set;
  * A class the uses a brute-force approach to solve a Banagrams hand.
  */
 public class BruteForceSolver implements Solver {
-    final Dictionary dictionary;
+    private final Dictionary dictionary;
 
     /**
      * Creates a brute-force solver which will use the given Dictionary.
