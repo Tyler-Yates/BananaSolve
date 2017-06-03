@@ -37,9 +37,10 @@ public class BruteForceSolver implements Solver {
 
                 final List<Character> addedChars = board.addWord(firstWordToPlace, 100, 100, Direction.RIGHT);
                 solution = solution.subtractedBy(new HashTileGroup(addedChars));
+            } else {
+                return null;
             }
         }
-        System.out.println(board);
         return board;
     }
 }

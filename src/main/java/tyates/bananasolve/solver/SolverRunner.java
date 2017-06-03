@@ -1,5 +1,6 @@
 package tyates.bananasolve.solver;
 
+import tyates.bananasolve.data.Board;
 import tyates.bananasolve.data.HashTileGroup;
 import tyates.bananasolve.dictionary.Dictionaries;
 import tyates.bananasolve.dictionary.Dictionary;
@@ -16,9 +17,9 @@ import static tyates.bananasolve.util.StringStandardizer.standardize;
 public class SolverRunner {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter tiles separated by commas: ");
-        final String input = reader.readLine();
-        final String[] parts = input.split(",");
+        System.out.print("Enter tiles: ");
+        final String input = reader.readLine().toLowerCase().replaceAll("[^a-z]", "");
+        final String[] parts = input.split("");
         final List<Character> tiles = new ArrayList<>();
         for (final String part : parts) {
             final String tile = standardize(part);
@@ -34,6 +35,7 @@ public class SolverRunner {
 
         final Dictionary dictionary = Dictionaries.fiveThousandEnglishWordsDictionary();
         final Solver solver = new BruteForceSolver(dictionary);
-        solver.solve(new HashTileGroup(tiles));
+        final Board solved = solver.solve(new HashTileGroup(tiles));
+        System.out.println(solved);
     }
 }
