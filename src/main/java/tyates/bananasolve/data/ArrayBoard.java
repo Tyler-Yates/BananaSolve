@@ -99,11 +99,13 @@ public class ArrayBoard implements Board {
     }
 
     @Override
-    public boolean addWord(String word, final int row, final int col, final Direction direction) {
+    public List<Character> addWord(String word, final int row, final int col, final Direction direction) {
         word = standardize(word);
         if (!dictionary.isValidWord(word)) {
-            return false;
+            return null;
         }
+
+        final List<Character> addedCharacters = new ArrayList<>();
 
         // Create a new matrix so that if we find we cannot add the word successfully, the original board remains
         // unmodified.
@@ -120,11 +122,12 @@ public class ArrayBoard implements Board {
             // If there is an existing character, ensure that it is the character we want to add
             if (UNINITIALIZED_CHARACTER != newTiles[currentRow][currentCol]) {
                 if (newTiles[currentRow][currentCol] != ch) {
-                    return false;
+                    return null;
                 }
+            } else {
+                newTiles[currentRow][currentCol] = ch;
+                addedCharacters.add(ch);
             }
-
-            newTiles[currentRow][currentCol] = ch;
 
             // Change currentRow and currentCol based on direction
             if (direction == Direction.DOWN) {
@@ -141,8 +144,10 @@ public class ArrayBoard implements Board {
         final boolean isValid = boardIsValid(newTiles);
         if (isValid) {
             this.tiles = newTiles;
+        } else {
+            return null;
         }
-        return isValid;
+        return addedCharacters;
     }
 
     private boolean boardIsValid(final char[][] board) {
