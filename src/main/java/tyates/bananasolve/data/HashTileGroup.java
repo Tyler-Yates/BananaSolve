@@ -40,8 +40,8 @@ public class HashTileGroup implements TileGroup {
     @Override
     public TileGroup subtractedBy(TileGroup otherTileGroup) {
         final Map<Character, Integer> counts = new HashMap<>();
-        for (final Map.Entry<Character, Integer> entry : otherTileGroup.getTileCounts().getCounts().entrySet()) {
-            final int newCount = tiles.getCount(entry.getKey()) - entry.getValue();
+        for (final Map.Entry<Character, Integer> entry : getTileCounts().getCounts().entrySet()) {
+            final int newCount = entry.getValue() - otherTileGroup.getTileCounts().getCount(entry.getKey());
             if (newCount < 0) {
                 return null;
             } else {
