@@ -46,6 +46,13 @@ public class MatrixUtil {
             }
         }
 
+        if (firstRow > lastRow) {
+            firstRow = lastRow = 0;
+        }
+        if (firstCol > lastCol) {
+            firstCol = lastCol = 0;
+        }
+
         final char[][] output = new char[lastRow - firstRow + 1][lastCol - firstCol + 1];
         for (int r = firstRow; r <= lastRow; r++) {
             System.arraycopy(input[r], firstCol, output[r - firstRow], 0, lastCol + 1 - firstCol);
