@@ -3,6 +3,7 @@ package tyates.bananasolve.solver;
 import tyates.bananasolve.data.*;
 import tyates.bananasolve.dictionary.Dictionary;
 import tyates.bananasolve.dictionary.Restrictions;
+import tyates.bananasolve.heuristics.HardestLetterHeuristic;
 import tyates.bananasolve.heuristics.LongestWordHeuristic;
 import tyates.bananasolve.heuristics.OrderingHeuristic;
 import tyates.bananasolve.util.Direction;
@@ -29,7 +30,7 @@ public class BruteForceSolver implements Solver {
     public BruteForceSolver(final Dictionary dictionary) {
         this.dictionary = dictionary;
         firstWordHeuristic = new LongestWordHeuristic();
-        subsequentWordHeuristic = new LongestWordHeuristic();
+        subsequentWordHeuristic = new HardestLetterHeuristic();
     }
 
     @Override
@@ -78,21 +79,19 @@ public class BruteForceSolver implements Solver {
     private void placeWordsOnTile(final Board board, final TileGroup tiles, final Tile tile) {
         final TileGroup tilesPlusTile = tiles.combinedWith(tile);
 
-        // Down and Right direction words must start with the tile character
-        Set<String> restrictedWords = dictionary.validWordsPossible(tilesPlusTile,
-                Restrictions.startsWith(tile.getCharacter()));
-        SortedSet<String> words = subsequentWordHeuristic.orderWords(restrictedWords);
+        // The word must contain the tile we are placing on
+        final Set<String> restrictedWords = dictionary.validWordsPossible(tilesPlusTile,
+                Restrictions.contains(tile.getCharacter()));
+        final SortedSet<String> words = subsequentWordHeuristic.orderWords(restrictedWords);
         for (final String word : words) {
-            tryPlacingWord(word, tiles, board, tile.getRow(), tile.getCol(), Direction.RIGHT);
-            tryPlacingWord(word, tiles, board, tile.getRow(), tile.getCol(), Direction.DOWN);
-        }
-
-        // Left and Up direction words must end with the tile character
-        restrictedWords = dictionary.validWordsPossible(tilesPlusTile, Restrictions.endsWith(tile.getCharacter()));
-        words = subsequentWordHeuristic.orderWords(restrictedWords);
-        for (final String word : words) {
-            tryPlacingWord(word, tiles, board, tile.getRow(), tile.getCol(), Direction.LEFT);
-            tryPlacingWord(word, tiles, board, tile.getRow(), tile.getCol(), Direction.UP);
+            // The word may have multiple occurrences of the tile. We should attempt each place.
+            for (int i = 0; i < word.length(); i++) {
+                final char ch = word.charAt(i);
+                if (ch == tile.getCharacter()) {
+                    tryPlacingWord(word, tiles, board, tile.getRow(), tile.getCol() - i, Direction.RIGHT);
+                    tryPlacingWord(word, tiles, board, tile.getRow() - i, tile.getCol(), Direction.DOWN);
+                }
+            }
         }
     }
 
