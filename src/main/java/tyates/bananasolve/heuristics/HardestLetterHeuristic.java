@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 /**
  * Class that orders based on the number of "hard characters" in a word. Words with higher numbers of "hard characters"
- * are considered more promising.
+ * are considered more promising. If there is a tie in number of "hard characters", longer words are preferred.
  */
 public class HardestLetterHeuristic implements OrderingHeuristic {
     private static final Set<Character> HARD_CHARACTERS = ImmutableSet.of('z', 'v', 'q', 'x', 'j', 'k');
@@ -17,7 +17,11 @@ public class HardestLetterHeuristic implements OrderingHeuristic {
     private static final Comparator<String> COMPARATOR = new Comparator<String>() {
         @Override
         public int compare(final String s1, final String s2) {
-            return numberOfHardCharacters(s2) - numberOfHardCharacters(s1);
+            final int score = numberOfHardCharacters(s2) - numberOfHardCharacters(s1);
+            if (score == 0) {
+                return s2.length() - s1.length();
+            }
+            return score;
         }
     };
 
