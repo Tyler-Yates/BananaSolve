@@ -1,8 +1,13 @@
 package tyates.bananasolve.dictionary;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.primitives.Chars;
+import tyates.bananasolve.data.TileGroup;
+import tyates.bananasolve.util.CountingMap;
+import tyates.bananasolve.util.HashCountingMap;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import static tyates.bananasolve.util.StringStandardizer.standardize;
@@ -25,5 +30,18 @@ public abstract class AbstractDictionary implements Dictionary {
     @Override
     public final Set<String> validWords() {
         return ImmutableSet.copyOf(validWords);
+    }
+
+    @Override
+    public Set<String> validWordsPossible(final TileGroup tileGroup) {
+        final Set<String> validWordsPossible = new HashSet<>();
+        final CountingMap<Character> tileCounts = tileGroup.getTileCounts();
+        for (final String word : validWords()) {
+            final HashCountingMap<Character> wordCountingMap = new HashCountingMap<>(Chars.asList(word.toCharArray()));
+            if (tileCounts.subsumes(wordCountingMap)) {
+                validWordsPossible.add(word);
+            }
+        }
+        return validWordsPossible;
     }
 }

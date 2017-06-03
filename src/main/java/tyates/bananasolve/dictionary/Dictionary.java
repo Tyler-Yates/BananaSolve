@@ -1,5 +1,7 @@
 package tyates.bananasolve.dictionary;
 
+import tyates.bananasolve.data.TileGroup;
+
 import java.util.Set;
 
 /**
@@ -20,4 +22,12 @@ public interface Dictionary {
      * @return the Set of valid words
      */
     Set<String> validWords();
+
+    /**
+     * Returns a Set of valid words that are possible to make using the given tile group.
+     *
+     * @param tileGroup the given tile group
+     * @return a Set of valid words
+     */
+    Set<String> validWordsPossible(final TileGroup tileGroup);
 }
