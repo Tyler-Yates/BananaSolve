@@ -44,4 +44,17 @@ public abstract class AbstractDictionary implements Dictionary {
         }
         return validWordsPossible;
     }
+
+    @Override
+    public Set<String> validWordsPossible(final TileGroup tileGroup, final Restriction restriction) {
+        final Set<String> validWordsPossible = new HashSet<>();
+        final CountingMap<Character> tileCounts = tileGroup.getTileCounts();
+        for (final String word : validWords()) {
+            final HashCountingMap<Character> wordCountingMap = new HashCountingMap<>(Chars.asList(word.toCharArray()));
+            if (restriction.permissible(word) && tileCounts.subsumes(wordCountingMap)) {
+                validWordsPossible.add(word);
+            }
+        }
+        return validWordsPossible;
+    }
 }

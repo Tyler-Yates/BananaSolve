@@ -30,4 +30,14 @@ public interface Dictionary {
      * @return a Set of valid words
      */
     Set<String> validWordsPossible(final TileGroup tileGroup);
+
+    /**
+     * Returns a Set of valid words that adhere to the given restriction and are possible to make using the given tile
+     * group.
+     *
+     * @param tileGroup   the given tile group
+     * @param restriction the given restriction
+     * @return a Set of valid words
+     */
+    Set<String> validWordsPossible(final TileGroup tileGroup, final Restriction restriction);
 }
