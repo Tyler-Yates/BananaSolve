@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+import static tyates.bananasolve.util.StringStandardizer.standardize;
+
 /**
  * Helper class for instantiating Dictionary instances.
  */
@@ -35,7 +37,10 @@ public final class Dictionaries {
 
         final Set<String> validWords = new HashSet<>();
         while (scanner.hasNext()) {
-            validWords.add(scanner.nextLine());
+            final String line = standardize(scanner.nextLine());
+            if (line.length() > 1) {
+                validWords.add(line);
+            }
         }
         return validWords;
     }
