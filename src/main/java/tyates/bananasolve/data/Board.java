@@ -34,4 +34,11 @@ public interface Board {
      * @return the list of words
      */
     List<String> getWords();
+
+    /**
+     * Returns a deep copy of the current board.
+     *
+     * @return the deep copy
+     */
+    Board copy();
 }

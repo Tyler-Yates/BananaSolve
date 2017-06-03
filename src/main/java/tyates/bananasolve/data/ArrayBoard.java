@@ -16,7 +16,7 @@ import static tyates.bananasolve.util.StringStandardizer.standardize;
 public class ArrayBoard implements Board {
     private final Dictionary dictionary;
 
-    private char[][] tiles = new char[1024][1024];
+    private char[][] tiles;
 
     /**
      * Creates a new board with the given dictionary.
@@ -25,6 +25,12 @@ public class ArrayBoard implements Board {
      */
     public ArrayBoard(final Dictionary dictionary) {
         this.dictionary = dictionary;
+        tiles = new char[1024][1024];
+    }
+
+    private ArrayBoard(final Dictionary dictionary, final char[][] tiles) {
+        this.dictionary = dictionary;
+        this.tiles = tiles;
     }
 
     private static List<String> getWords(char[][] board) {
@@ -182,6 +188,11 @@ public class ArrayBoard implements Board {
     @Override
     public List<String> getWords() {
         return getWords(tiles);
+    }
+
+    @Override
+    public Board copy() {
+        return new ArrayBoard(dictionary, MatrixUtil.cloneMatrix(tiles));
     }
 
     @Override
