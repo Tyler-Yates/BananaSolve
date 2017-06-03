@@ -68,4 +68,9 @@ public class HashTileGroup implements TileGroup {
     public TileGroup copy() {
         return new HashTileGroup(tiles.copy());
     }
+
+    @Override
+    public String toString() {
+        return tiles.getValues().toString();
+    }
 }
