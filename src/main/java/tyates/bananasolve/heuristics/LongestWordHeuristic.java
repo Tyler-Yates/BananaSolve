@@ -12,7 +12,11 @@ public class LongestWordHeuristic implements OrderingHeuristic {
     private static final Comparator<String> COMPARATOR = new Comparator<String>() {
         @Override
         public int compare(final String s1, final String s2) {
-            return s2.length() - s1.length();
+            final int score = s2.length() - s1.length();
+            if (score == 0) {
+                return s1.compareTo(s2);
+            }
+            return score;
         }
     };
 

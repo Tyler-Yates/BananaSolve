@@ -19,7 +19,11 @@ public class HardestLetterHeuristic implements OrderingHeuristic {
         public int compare(final String s1, final String s2) {
             final int score = numberOfHardCharacters(s2) - numberOfHardCharacters(s1);
             if (score == 0) {
-                return s2.length() - s1.length();
+                final int lengthScore = s2.length() - s1.length();
+                if (lengthScore == 0) {
+                    return s1.compareTo(s2);
+                }
+                return lengthScore;
             }
             return score;
         }
