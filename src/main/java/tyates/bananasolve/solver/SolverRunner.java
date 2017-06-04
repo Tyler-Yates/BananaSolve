@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import static tyates.bananasolve.util.StringStandardizer.standardize;
@@ -35,7 +36,10 @@ public class SolverRunner {
 
         final Dictionary dictionary = Dictionaries.scrabbleDictionary();
         final Solver solver = new DepthFirstMultithreadedSolver(dictionary);
+        final long startTime = System.currentTimeMillis();
         final Board solved = solver.solve(new HashTileGroup(tiles));
+        final long endTime = System.currentTimeMillis();
         System.out.println(solved);
+        System.out.println("Time to solve: " + (TimeUnit.MILLISECONDS.toSeconds(endTime - startTime)) + " seconds");
     }
 }
