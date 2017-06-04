@@ -11,6 +11,9 @@ import tyates.bananasolve.util.Direction;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A class the uses a brute-force approach to solve a Banagrams hand.
@@ -19,6 +22,8 @@ public class BruteForceSolver implements Solver {
     private final Dictionary dictionary;
     private final OrderingHeuristic firstWordHeuristic;
     private final OrderingHeuristic subsequentWordHeuristic;
+
+    final ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
 
     private Board solution = null;
 
@@ -37,7 +42,26 @@ public class BruteForceSolver implements Solver {
     public Board solve(final TileGroup tiles) {
         solution = null;
 
-        work(new ArrayBoard(dictionary), tiles);
+        final SortedSet<String> validWords = firstWordHeuristic.orderWords(dictionary.validWordsPossible(tiles));
+        System.out.println(validWords);
+        for (final String word : validWords) {
+            final Board board = new ArrayBoard(dictionary);
+            final List<Character> addedChars = board.addWord(word, 100, 100, Direction.RIGHT);
+
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    work(board, tiles.subtractedBy(new HashTileGroup(addedChars)));
+                }
+            });
+        }
+
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(100, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return solution;
     }
@@ -59,20 +83,9 @@ public class BruteForceSolver implements Solver {
             return;
         }
 
-        // Placing the first word
-        if (currentBoard.getTiles().isEmpty()) {
-            final SortedSet<String> validWords = firstWordHeuristic.orderWords(
-                    dictionary.validWordsPossible(currentTiles));
-            for (final String word : validWords) {
-                final Board newBoard = currentBoard.copy();
-                final List<Character> addedChars = newBoard.addWord(word, 100, 100, Direction.RIGHT);
-                work(newBoard, currentTiles.subtractedBy(new HashTileGroup(addedChars)));
-            }
-        } else {
-            // Placing a word on an existing board
-            for (final Tile tile : currentBoard.getTiles()) {
-                placeWordsOnTile(currentBoard, currentTiles, tile);
-            }
+        // Placing a word on an existing board
+        for (final Tile tile : currentBoard.getTiles()) {
+            placeWordsOnTile(currentBoard, currentTiles, tile);
         }
     }
 
