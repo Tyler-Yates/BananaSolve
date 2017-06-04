@@ -57,6 +57,10 @@ public final class Dictionaries {
         return new ImmutableSetDictionary(loadDictionaryFile("ten_thousand_english_dictionary.txt"));
     }
 
+    public static Dictionary scrabbleDictionary() throws FileNotFoundException {
+        return new ImmutableSetDictionary(loadDictionaryFile("scrabble.txt"));
+    }
+
     /**
      * Creates a Dictionary using the given valid words.
      *
