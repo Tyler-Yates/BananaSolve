@@ -32,6 +32,7 @@ public class SolverRunner {
             }
         }
 
+        System.out.println("Total Tiles: " + tiles.size());
         System.out.println("Tiles: " + tiles);
 
         final Dictionary dictionary = Dictionaries.scrabbleDictionary();
