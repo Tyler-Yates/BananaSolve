@@ -34,7 +34,7 @@ public class SolverRunner {
         System.out.println("Tiles: " + tiles);
 
         final Dictionary dictionary = Dictionaries.scrabbleDictionary();
-        final Solver solver = new BruteForceSolver(dictionary);
+        final Solver solver = new DepthFirstMultithreadedSolver(dictionary);
         final Board solved = solver.solve(new HashTileGroup(tiles));
         System.out.println(solved);
     }

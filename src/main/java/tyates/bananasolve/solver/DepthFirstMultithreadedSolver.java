@@ -18,12 +18,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * A class the uses a brute-force approach to solve a Banagrams hand.
  */
-public class BruteForceSolver implements Solver {
+public class DepthFirstMultithreadedSolver implements Solver {
     private final Dictionary dictionary;
     private final OrderingHeuristic firstWordHeuristic;
     private final OrderingHeuristic subsequentWordHeuristic;
 
-    final ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
+    private final ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
 
     private Board solution = null;
 
@@ -32,7 +32,7 @@ public class BruteForceSolver implements Solver {
      *
      * @param dictionary the given dictionary
      */
-    public BruteForceSolver(final Dictionary dictionary) {
+    public DepthFirstMultithreadedSolver(final Dictionary dictionary) {
         this.dictionary = dictionary;
         firstWordHeuristic = new LongestWordHeuristic();
         subsequentWordHeuristic = new HardestLetterHeuristic();
