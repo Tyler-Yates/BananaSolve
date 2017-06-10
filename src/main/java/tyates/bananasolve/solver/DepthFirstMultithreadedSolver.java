@@ -45,7 +45,7 @@ public class DepthFirstMultithreadedSolver implements Solver {
         final SortedSet<String> validWords = firstWordHeuristic.orderWords(dictionary.validWordsPossible(tiles));
         System.out.println(validWords);
         for (final String word : validWords) {
-            final Board board = new ArrayBoard(dictionary);
+            final Board board = new NodeBoard(dictionary);
             final List<Character> addedChars = board.addWord(word, 100, 100, Direction.RIGHT);
 
             executorService.submit(new Runnable() {
